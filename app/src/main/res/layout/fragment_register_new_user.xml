@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".registerNewUser">
+
+    <!-- TODO: Update blank fragment layout -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white">
+
+            <ImageView
+                android:id="@+id/ic_registerNow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/registernow"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/edt_email"
+                android:layout_width="340dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="8dp"
+                android:ems="10"
+
+                android:hint="Email"
+                android:inputType="textEmailAddress"
+                app:layout_constraintEnd_toEndOf="@+id/ic_registerNow"
+                app:layout_constraintStart_toStartOf="@+id/ic_registerNow"
+                app:layout_constraintTop_toBottomOf="@+id/ic_registerNow" />
+
+            <EditText
+                android:id="@+id/edt_password1"
+                android:layout_width="340dp"
+                android:layout_height="48dp"
+
+                android:ems="10"
+                android:hint="password"
+                android:inputType="textPassword"
+                app:layout_constraintEnd_toEndOf="@+id/edt_email"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/edt_email"
+                app:layout_constraintTop_toBottomOf="@+id/edt_email" />
+
+            <EditText
+                android:id="@+id/edt_password"
+                android:layout_width="340dp"
+                android:layout_height="48dp"
+
+                android:ems="10"
+                android:hint="password"
+                android:inputType="textPassword"
+                app:layout_constraintEnd_toEndOf="@+id/edt_email"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/edt_email"
+                app:layout_constraintTop_toBottomOf="@+id/edt_password1" />
+
+            <EditText
+                android:id="@+id/edt_name_user"
+                android:layout_width="340dp"
+                android:layout_height="48dp"
+
+                android:ems="10"
+                android:hint="Назови себя! (или ключ для Маши)"
+                android:inputType="textPersonName"
+                app:layout_constraintEnd_toEndOf="@+id/edt_password"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/edt_password"
+                app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+
+            <RadioGroup
+                android:id="@+id/radioGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="@+id/edt_password"
+                app:layout_constraintHorizontal_bias="0.37"
+                app:layout_constraintStart_toStartOf="@+id/edt_password"
+                app:layout_constraintTop_toBottomOf="@+id/edt_password">
+
+                <RadioButton
+                    android:id="@+id/rb_masha"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Я Маша!" />
+
+                <RadioButton
+                    android:id="@+id/rb_user"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="Пользователь" />
+            </RadioGroup>
+
+            <Button
+                android:id="@+id/b_reg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Зарегистрироватся"
+                app:layout_constraintEnd_toEndOf="@+id/edt_name_user"
+                app:layout_constraintStart_toStartOf="@+id/edt_name_user"
+                app:layout_constraintTop_toBottomOf="@+id/edt_name_user" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+</FrameLayout>

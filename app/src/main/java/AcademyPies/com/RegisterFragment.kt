@@ -58,7 +58,9 @@ class RegisterFragment : Fragment() {
             setOnClickListener {
                 val v_login:EditText = view.findViewById<EditText>(R.id.Login)
                 val v_pass:EditText = view.findViewById<EditText>(R.id.Password)
-                listener?.registerFirstFragment(v_login.text.toString(),v_pass.text.toString()) }
+              //  listener?.registerFirstFragment(v_login.text.toString(),v_pass.text.toString())
+            listener?.openRegisterFragment()
+            }
         }
 
     }
@@ -70,6 +72,7 @@ class RegisterFragment : Fragment() {
     interface ClickListener {
         fun singFirstFragment(login:String,pass:String)
         fun registerFirstFragment(login:String, pass:String)
+        fun openRegisterFragment()
 
     }
 

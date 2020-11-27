@@ -9,7 +9,8 @@
     <!-- TODO: Update blank fragment layout -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/white">
 
         <EditText
             android:id="@+id/Login"
@@ -17,8 +18,8 @@
             android:layout_height="40dp"
             android:layout_marginTop="100dp"
             android:ems="10"
-            android:inputType="textEmailAddress"
             android:hint="Email"
+            android:inputType="textEmailAddress"
             android:text=""
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -31,8 +32,8 @@
             android:layout_marginTop="24dp"
             android:ems="10"
             android:hint="Passwword"
-            android:text=""
             android:inputType="textPassword"
+            android:text=""
             app:layout_constraintEnd_toEndOf="@+id/Login"
             app:layout_constraintStart_toStartOf="@+id/Login"
             app:layout_constraintTop_toBottomOf="@+id/Login" />
