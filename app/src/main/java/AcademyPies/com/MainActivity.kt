@@ -20,6 +20,8 @@ class MainActivity : AppCompatActivity(),RegisterFragment.ClickListener,register
 
     private val registerAndSingUser = RegisterFragment().apply { setListener(this@MainActivity) }
     private val registerNewUser= AcademyPies.com.registerNewUser().apply { this@MainActivity }
+    private val mashaMainFragment = MashaMainFragment().apply { this@MainActivity }
+    private val userMainFragment = UserMainFragment().apply { this@MainActivity }
 
     private lateinit var auth: FirebaseAuth
 
@@ -199,10 +201,26 @@ class MainActivity : AppCompatActivity(),RegisterFragment.ClickListener,register
                         addUser.child(account.uid.toString()).setValue(nameUser)
                         val addTypeUser = database.getReference("UserType")
                         addTypeUser.child(account.uid.toString()).setValue(typeUser)
-                        if(typeUser!="Маша")
-                        {
-                        val addPie = database.getReference("CountPie")
-                        addPie.child(account.uid.toString()).setValue("0")}
+                        if(typeUser!="Маша") {
+                            val addPie = database.getReference("CountPie")
+                            addPie.child(account.uid.toString()).setValue("0")
+
+                            supportFragmentManager.fragments.clear()
+                            supportFragmentManager.beginTransaction().apply {
+                                // remove(supportFragmentManager.fragments.last())
+                                addToBackStack(null)
+                                add(R.id.persistent_container, userMainFragment)
+                                commit()
+                            }
+                        }else{
+                            supportFragmentManager.fragments.clear()
+                            supportFragmentManager.beginTransaction().apply {
+                                // remove(supportFragmentManager.fragments.last())
+                                addToBackStack(null)
+                                add(R.id.persistent_container,mashaMainFragment)
+                                commit()
+                            }
+                        }
                         Toast.makeText(baseContext, "Данные добавлены!",
                             Toast.LENGTH_SHORT).show()
                     ////////////
