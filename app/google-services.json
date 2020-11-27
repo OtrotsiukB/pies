@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "109451327498",
+    "firebase_url": "https://pies-d910a.firebaseio.com",
+    "project_id": "pies-d910a",
+    "storage_bucket": "pies-d910a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:109451327498:android:39d24c78abd187e69747f3",
+        "android_client_info": {
+          "package_name": "AcademyPies.com"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "109451327498-8etmfpca6tblsgeein95vcfla5qmuqgn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBtHzqt4CjgvkVr6fhnpBgDpXoTsV8AgDM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "109451327498-8etmfpca6tblsgeein95vcfla5qmuqgn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
