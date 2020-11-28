@@ -49,16 +49,17 @@ class MainActivity : AppCompatActivity(),RegisterFragment.ClickListener,register
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
-                    Toast.makeText(baseContext, "Authentication ok.",
+                   /* Toast.makeText(baseContext, "Authentication ok.",
                         Toast.LENGTH_SHORT).show()
-                    val user = auth.currentUser
-                    updateUI(user)
+                    val user = auth.currentUser*/
+                    openNextFragmentAfterSing()
+                   // updateUI(user)
                 } else {
                     // If sign in fails, display a message to the user.
 
-                    Toast.makeText(baseContext, "2Authentication failed.",
+                    Toast.makeText(baseContext, "Authentication failed.",
                         Toast.LENGTH_SHORT).show()
-                    updateUI(null)
+                   // updateUI(null)
                     // ...
                 }
 
@@ -75,17 +76,71 @@ class MainActivity : AppCompatActivity(),RegisterFragment.ClickListener,register
                     val user = auth.currentUser
                     Toast.makeText(baseContext, "Authentication ok.",
                         Toast.LENGTH_SHORT).show()
-                    updateUI(user)
+
+                    //updateUI(user)
                 } else {
                     // If sign in fails, display a message to the user.
 
                     Toast.makeText(baseContext, "1Authentication failed.",
                         Toast.LENGTH_SHORT).show()
-                    updateUI(null)
+                    //updateUI(null)
                 }
 
                 // ...
             }
+    }
+    fun openNextFragmentAfterSing(){
+
+        val account=auth.currentUser
+        //проверка тип пользователя и открытие нужного фрагмента
+        val database = com.google.firebase.ktx.Firebase.database
+        val checkTypeUser = database.getReference("UserType")//.child(account.uid.toString())
+
+        checkTypeUser.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                val value = dataSnapshot.getValue()
+                for (postSnapshot in dataSnapshot.children) {
+                    if(account!=null)
+                    {
+                    if(postSnapshot.key==account.uid.toString()){
+                        var typeUser = postSnapshot.value.toString()
+
+                        if(typeUser=="Маша"){
+                            supportFragmentManager.beginTransaction().apply {
+
+                                addToBackStack(null)
+                                add(R.id.persistent_container,mashaMainFragment)
+                                commit()
+                            }
+                        }else{
+                            supportFragmentManager.beginTransaction().apply {
+
+                                addToBackStack(null)
+                                add(R.id.persistent_container, userMainFragment)
+                                commit()
+                            }
+                        }
+
+
+                    }
+                    }
+                }
+
+                //  Log.d(TAG, "Value is: $value")
+                //  Toast.makeText(this, "1 $value", Toast.LENGTH_LONG).show()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // Failed to read value
+                // Log.w(TAG, "Failed to read value.", error.toException())
+            }
+        })
+        ////////
+
+
+
     }
 
     override fun openRegisterFragment() {
@@ -100,10 +155,7 @@ class MainActivity : AppCompatActivity(),RegisterFragment.ClickListener,register
 
     var x = 1
 
-    data class User(
-            var username: String? = "",
-            var email: String? = ""
-    )
+
 
     fun updateUI(account: FirebaseUser?) {
         if (account != null) {
@@ -119,7 +171,7 @@ class MainActivity : AppCompatActivity(),RegisterFragment.ClickListener,register
 
             myRef2.setValue("Hello, users!{}")
             x++
-            val user = User("user1", "email1")
+           
             myRef2.child("Hello, users!{}").setValue("2")
            // database.getReference("message").setValue(user)
             val myref3 = database.getReference("Users")

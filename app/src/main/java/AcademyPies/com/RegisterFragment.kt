@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -50,14 +51,21 @@ class RegisterFragment : Fragment() {
         SingOnFirstForm = view.findViewById<Button>(R.id.b_Sing_in).apply {
 
             setOnClickListener {
+
                 val v_login:EditText = view.findViewById<EditText>(R.id.Login)
                 val v_pass:EditText = view.findViewById<EditText>(R.id.Password)
+                if (v_login.text.toString()!=""&& v_pass.text.toString()!=""){
                 listener?.singFirstFragment(v_login.text.toString(),v_pass.text.toString()) }
+                else{
+                    Toast.makeText( activity, "Пустое поле!", Toast.LENGTH_LONG).show()
+                }
+
+            }
         }
         RegisterOnFirstForm= view.findViewById<Button>(R.id.b_register).apply {
             setOnClickListener {
-                val v_login:EditText = view.findViewById<EditText>(R.id.Login)
-                val v_pass:EditText = view.findViewById<EditText>(R.id.Password)
+              //  val v_login:EditText = view.findViewById<EditText>(R.id.Login)
+              //  val v_pass:EditText = view.findViewById<EditText>(R.id.Password)
               //  listener?.registerFirstFragment(v_login.text.toString(),v_pass.text.toString())
             listener?.openRegisterFragment()
             }

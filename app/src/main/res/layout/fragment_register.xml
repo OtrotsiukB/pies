@@ -16,14 +16,13 @@
             android:id="@+id/Login"
             android:layout_width="361dp"
             android:layout_height="40dp"
-            android:layout_marginTop="100dp"
             android:ems="10"
             android:hint="Email"
             android:inputType="textEmailAddress"
             android:text=""
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
         <EditText
             android:id="@+id/Password"
@@ -57,6 +56,15 @@
             app:layout_constraintEnd_toEndOf="@+id/b_Sing_in"
             app:layout_constraintStart_toStartOf="@+id/b_Sing_in"
             app:layout_constraintTop_toBottomOf="@+id/b_Sing_in" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/pirozhkikruglye"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>
