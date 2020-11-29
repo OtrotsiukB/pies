@@ -60,6 +60,7 @@ class UserMainFragment : Fragment() {
             }
         }
 
+
     }
 
     fun setListener(l: ClickListener) {

@@ -17,7 +17,7 @@ import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 
 
-class MainActivity : AppCompatActivity(),RegisterFragment.ClickListener,registerNewUser.ClickListenerReg,AddPieFragment.ClickListener,MashaMainFragment.ClickListener {
+class MainActivity : AppCompatActivity(),RegisterFragment.ClickListener,registerNewUser.ClickListenerReg,AddPieFragment.ClickListener,MashaMainFragment.ClickListener,UserMainFragment.ClickListener {
 
     private val registerAndSingUser = RegisterFragment().apply { setListener(this@MainActivity) }
     private val registerNewUser= AcademyPies.com.registerNewUser().apply { this@MainActivity }
