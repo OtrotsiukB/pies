@@ -9,20 +9,20 @@
     <!-- TODO: Update blank fragment layout -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/white">
 
         <EditText
             android:id="@+id/Login"
             android:layout_width="361dp"
             android:layout_height="40dp"
-            android:layout_marginTop="100dp"
             android:ems="10"
-            android:inputType="textEmailAddress"
             android:hint="Email"
+            android:inputType="textEmailAddress"
             android:text=""
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
         <EditText
             android:id="@+id/Password"
@@ -31,8 +31,8 @@
             android:layout_marginTop="24dp"
             android:ems="10"
             android:hint="Passwword"
-            android:text=""
             android:inputType="textPassword"
+            android:text=""
             app:layout_constraintEnd_toEndOf="@+id/Login"
             app:layout_constraintStart_toStartOf="@+id/Login"
             app:layout_constraintTop_toBottomOf="@+id/Login" />
@@ -56,6 +56,15 @@
             app:layout_constraintEnd_toEndOf="@+id/b_Sing_in"
             app:layout_constraintStart_toStartOf="@+id/b_Sing_in"
             app:layout_constraintTop_toBottomOf="@+id/b_Sing_in" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/pirozhkikruglye"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

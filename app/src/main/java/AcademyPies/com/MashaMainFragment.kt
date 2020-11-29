@@ -1,15 +1,14 @@
 package AcademyPies.com
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
+import androidx.fragment.app.Fragment
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -18,18 +17,19 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [RegisterFragment.newInstance] factory method to
+ * Use the [MashaMainFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-
-class RegisterFragment : Fragment() {
+class MashaMainFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
 
-    private var listener:ClickListener? = null
-    private var SingOnFirstForm:Button?=null
-    private var RegisterOnFirstForm:Button?=null
+    private var listener: ClickListener?=null
+    private var newPie:Button?=null
+    private var top:Button?=null
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -43,44 +43,35 @@ class RegisterFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_register, container, false)
+        return inflater.inflate(R.layout.fragment_masha_main, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        SingOnFirstForm = view.findViewById<Button>(R.id.b_Sing_in).apply {
-
+        newPie = view.findViewById<Button>(R.id.b_addPies).apply {
             setOnClickListener {
 
-                val v_login:EditText = view.findViewById<EditText>(R.id.Login)
-                val v_pass:EditText = view.findViewById<EditText>(R.id.Password)
-                if (v_login.text.toString()!=""&& v_pass.text.toString()!=""){
-                listener?.singFirstFragment(v_login.text.toString(),v_pass.text.toString()) }
-                else{
-                    Toast.makeText( activity, "Пустое поле!", Toast.LENGTH_LONG).show()
-                }
+                listener?.openAddPie()
 
             }
         }
-        RegisterOnFirstForm= view.findViewById<Button>(R.id.b_register).apply {
+        top = view.findViewById<Button>(R.id.b_topUsers).apply {
             setOnClickListener {
-              //  val v_login:EditText = view.findViewById<EditText>(R.id.Login)
-              //  val v_pass:EditText = view.findViewById<EditText>(R.id.Password)
-              //  listener?.registerFirstFragment(v_login.text.toString(),v_pass.text.toString())
-            listener?.openRegisterFragment()
+                listener?.openTop()
             }
         }
-
     }
+
+
     fun setListener(l: ClickListener) {
         listener = l
     }
 
     //TODO(WS2:4) Create interface ClickListener
     interface ClickListener {
-        fun singFirstFragment(login:String,pass:String)
-        fun registerFirstFragment(login:String, pass:String)
-        fun openRegisterFragment()
+        //fun registerNewUser(email:String,pass:String,typeUser:String,nameUser:String)
+        fun openAddPie()
+        fun openTop()
 
     }
 
@@ -95,7 +86,6 @@ class RegisterFragment : Fragment() {
         super.onDestroy()
         listener=null
     }
-
     companion object {
         /**
          * Use this factory method to create a new instance of
@@ -103,12 +93,12 @@ class RegisterFragment : Fragment() {
          *
          * @param param1 Parameter 1.
          * @param param2 Parameter 2.
-         * @return A new instance of fragment RegisterFragment.
+         * @return A new instance of fragment MashaMainFragment.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            RegisterFragment().apply {
+            MashaMainFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)
