@@ -1,10 +1,14 @@
 package AcademyPies.com
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import androidx.fragment.app.Fragment
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -20,6 +24,11 @@ class MashaMainFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+
+    private var listener: ClickListener?=null
+    private var newPie:Button?=null
+    private var top:Button?=null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +46,55 @@ class MashaMainFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_masha_main, container, false)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        newPie = view.findViewById<Button>(R.id.b_addPies).apply {
+            setOnClickListener {
+                //if(activity.supportFragmentManager!=null)
+               // {
+                listener?.openAddPie()
+               /* requireActivity().supportFragmentManager.beginTransaction().apply {
+
+                        addToBackStack(null)
+                        add(R.id.persistent_container, AddPieFragment())
+                        commit()
+                    }*/
+               /* val intent = Intent(
+                    requireActivity(),
+                    AddPiesActivity::class.java
+                )
+
+                startActivity(intent)*/
+
+
+
+            }
+        }
+    }
+
+
+    fun setListener(l: ClickListener) {
+        listener = l
+    }
+
+    //TODO(WS2:4) Create interface ClickListener
+    interface ClickListener {
+        //fun registerNewUser(email:String,pass:String,typeUser:String,nameUser:String)
+        fun openAddPie()
+
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if(context is ClickListener){
+            listener=context
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        listener=null
+    }
     companion object {
         /**
          * Use this factory method to create a new instance of

@@ -2,6 +2,7 @@ package AcademyPies.com
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.FirebaseError
@@ -16,12 +17,13 @@ import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 
 
-class MainActivity : AppCompatActivity(),RegisterFragment.ClickListener,registerNewUser.ClickListenerReg {
+class MainActivity : AppCompatActivity(),RegisterFragment.ClickListener,registerNewUser.ClickListenerReg,AddPieFragment.ClickListener,MashaMainFragment.ClickListener {
 
     private val registerAndSingUser = RegisterFragment().apply { setListener(this@MainActivity) }
     private val registerNewUser= AcademyPies.com.registerNewUser().apply { this@MainActivity }
     private val mashaMainFragment = MashaMainFragment().apply { this@MainActivity }
     private val userMainFragment = UserMainFragment().apply { this@MainActivity }
+    private val AddPieFragment = AddPieFragment().apply { this@MainActivity }
 
     private lateinit var auth: FirebaseAuth
 
@@ -39,6 +41,7 @@ class MainActivity : AppCompatActivity(),RegisterFragment.ClickListener,register
         }
         // Initialize Firebase Auth
         auth = Firebase.auth
+
 
 
     }
@@ -171,7 +174,7 @@ class MainActivity : AppCompatActivity(),RegisterFragment.ClickListener,register
 
             myRef2.setValue("Hello, users!{}")
             x++
-           
+
             myRef2.child("Hello, users!{}").setValue("2")
            // database.getReference("message").setValue(user)
             val myref3 = database.getReference("Users")
@@ -249,10 +252,13 @@ class MainActivity : AppCompatActivity(),RegisterFragment.ClickListener,register
                     val account=auth.currentUser
                     if (account!=null){
                         val database = com.google.firebase.ktx.Firebase.database
-                        val addUser = database.getReference("Users")
-                        addUser.child(account.uid.toString()).setValue(nameUser)
+
                         val addTypeUser = database.getReference("UserType")
                         addTypeUser.child(account.uid.toString()).setValue(typeUser)
+                        if(typeUser!="Маша") {
+                            val addUser = database.getReference("Users")
+                            addUser.child(account.uid.toString()).setValue(nameUser)
+                        }
                         if(typeUser!="Маша") {
                             val addPie = database.getReference("CountPie")
                             addPie.child(account.uid.toString()).setValue("0")
@@ -296,5 +302,150 @@ class MainActivity : AppCompatActivity(),RegisterFragment.ClickListener,register
             }
 
         //////
+    }
+    var UserList:MutableList<String>?=null
+    override fun AllUser(): Array<String> {
+        val database = com.google.firebase.ktx.Firebase.database
+        val database2 = com.google.firebase.ktx.Firebase.database.reference
+        val account=auth.currentUser
+        val rootRef = database.getReference("Users")//.child(account.uid.toString())
+      //  var x = database2.child("Users").limitToFirst(100)// reference.child("Users") //getReference.child("Users")
+
+
+       var w = rootRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            var UserList2:String=""
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                val value = dataSnapshot.getValue()
+                for (postSnapshot in dataSnapshot.children) {
+                    var x =postSnapshot.value.toString()
+                        UserList?.add(postSnapshot.value.toString())
+                   // UserList2=UserList2+","+x
+
+
+                }
+
+                //  Log.d(TAG, "Value is: $value")
+                //  Toast.makeText(this, "1 $value", Toast.LENGTH_LONG).show()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // Failed to read value
+                // Log.w(TAG, "Failed to read value.", error.toException())
+            }
+
+        })
+        //var v:ArrayList<String>= ListOf("Пусто")
+        var UserAray:Array<String> = UserList?.toTypedArray()?: arrayOf("пустой список")
+        //UserList?.clear()
+        return UserAray
+
+    }
+
+    fun showToast(stringShow:String){
+        Toast.makeText(this, stringShow, Toast.LENGTH_LONG).show()
+    }
+    override fun addPieUser(NameUser: String) {
+
+        val database = com.google.firebase.ktx.Firebase.database
+        val rootRef = database.getReference("Users")
+
+        var w = rootRef.addListenerForSingleValueEvent(object : ValueEventListener {
+
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+
+                for (postSnapshot in dataSnapshot.children) {
+                    if(NameUser==postSnapshot.value.toString()){
+                        val rootRef2 = database.getReference("CountPie")
+                        var id = postSnapshot.key.toString()
+                        var w2 = rootRef2.addListenerForSingleValueEvent(object : ValueEventListener {
+
+                            override fun onDataChange(dataSnapshot: DataSnapshot) {
+
+                                for (postSnapshot in dataSnapshot.children) {
+                                    if(id==postSnapshot.key.toString()){
+
+                                        var pieNow = postSnapshot.value.toString().toInt()
+                                        pieNow++
+                                        val addPie = database.getReference("CountPie")
+                                        addPie.child(id).setValue(pieNow.toString())
+                                        showToast("Взял пирожок $NameUser")
+
+
+                                    }
+                                }
+                            }
+
+                            override fun onCancelled(error: DatabaseError) {
+                                // Failed to read value
+                                // Log.w(TAG, "Failed to read value.", error.toException())
+                            }
+
+                        })
+                        /////////////////
+                    }
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // Failed to read value
+                // Log.w(TAG, "Failed to read value.", error.toException())
+            }
+
+        })
+
+
+       // Toast.makeText(this, "in $NameUser", Toast.LENGTH_LONG).show()
+    }
+
+    override fun openAddPie() {
+        val database = com.google.firebase.ktx.Firebase.database
+        val database2 = com.google.firebase.ktx.Firebase.database.reference
+        val account=auth.currentUser
+        val rootRef = database.getReference("Users")//.child(account.uid.toString())
+        //  var x = database2.child("Users").limitToFirst(100)// reference.child("Users") //getReference.child("Users")
+
+
+        var w = rootRef.addListenerForSingleValueEvent(object : ValueEventListener {
+
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                val value = dataSnapshot.getValue()
+                var stringUser:String?=null
+
+                for (postSnapshot in dataSnapshot.children) {
+                   if(stringUser==null)
+                   {
+                       stringUser=postSnapshot.value.toString()
+                   }else{
+                       stringUser=stringUser+":"+ postSnapshot.value.toString()
+                   }
+                   // var x =postSnapshot.value.toString()
+                   // UserList?.add(postSnapshot.value.toString())
+                    // UserList2=UserList2+","+x
+
+
+                }
+              //  var arayUser= stringUser?.split(":")?.toTypedArray()
+                supportFragmentManager.beginTransaction().apply {
+
+                    addToBackStack(null)
+                    add(R.id.persistent_container, AddPieFragment.apply { betwinString= stringUser.toString()})
+                    commit()
+                }
+                //  Log.d(TAG, "Value is: $value")
+                //  Toast.makeText(this, "1 $value", Toast.LENGTH_LONG).show()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // Failed to read value
+                // Log.w(TAG, "Failed to read value.", error.toException())
+            }
+
+        })
+        //var v:ArrayList<String>= ListOf("Пусто")
+       // var UserAray:Array<String> = UserList?.toTypedArray()?: arrayOf("пустой список")
     }
 }
