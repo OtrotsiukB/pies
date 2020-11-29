@@ -50,24 +50,14 @@ class MashaMainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         newPie = view.findViewById<Button>(R.id.b_addPies).apply {
             setOnClickListener {
-                //if(activity.supportFragmentManager!=null)
-               // {
+
                 listener?.openAddPie()
-               /* requireActivity().supportFragmentManager.beginTransaction().apply {
 
-                        addToBackStack(null)
-                        add(R.id.persistent_container, AddPieFragment())
-                        commit()
-                    }*/
-               /* val intent = Intent(
-                    requireActivity(),
-                    AddPiesActivity::class.java
-                )
-
-                startActivity(intent)*/
-
-
-
+            }
+        }
+        top = view.findViewById<Button>(R.id.b_topUsers).apply {
+            setOnClickListener {
+                listener?.openTop()
             }
         }
     }
@@ -81,6 +71,7 @@ class MashaMainFragment : Fragment() {
     interface ClickListener {
         //fun registerNewUser(email:String,pass:String,typeUser:String,nameUser:String)
         fun openAddPie()
+        fun openTop()
 
     }
 

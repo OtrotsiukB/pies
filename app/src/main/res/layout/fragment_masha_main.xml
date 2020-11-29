@@ -21,7 +21,7 @@
                 android:id="@+id/b_topUsers"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="16dp"
                 android:text="Рейтинг"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -42,11 +42,20 @@
                 android:id="@+id/b_addPies"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="16dp"
                 android:text="Добавить пирожков!"
                 app:layout_constraintEnd_toEndOf="@+id/b_topUsers"
                 app:layout_constraintStart_toStartOf="@+id/b_topUsers"
                 app:layout_constraintTop_toBottomOf="@+id/b_topUsers" />
+
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/masha"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/b_addPies" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

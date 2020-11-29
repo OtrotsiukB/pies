@@ -84,7 +84,7 @@ class AddPieFragment : Fragment() {
             var checkUser = listUser[position].toString()
             AlertDialog.Builder(context)
                 .setTitle("Угостить $checkUser пирожком?")
-                .setPositiveButton("Конечно") { _, _ ->
+                .setPositiveButton("Агась!") { _, _ ->
 
                     listener?.addPieUser(checkUser)
                 }

@@ -1,10 +1,13 @@
 package AcademyPies.com
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.TextView
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -21,12 +24,20 @@ class UserMainFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    var countPies:Int=0
+    var nameUserOnfragmenUser:String=""
+    var tv_countPies:TextView?=null
+    var tv_nameUser:TextView?=null
+
+    private var listener: ClickListener?=null
+    private var topButton:Button?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+        setRetainInstance(true);
     }
 
     override fun onCreateView(
@@ -35,6 +46,43 @@ class UserMainFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_user_main, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        tv_countPies=view.findViewById(R.id.tv_countPie)
+        tv_countPies?.text=countPies.toString()
+        tv_nameUser=view.findViewById(R.id.v_nameUserOnUserFragment)
+        tv_nameUser?.text=nameUserOnfragmenUser
+        topButton = view.findViewById<Button>(R.id.b_topUserFragment).apply {
+            setOnClickListener {
+                listener?.openTop()
+            }
+        }
+
+    }
+
+    fun setListener(l: ClickListener) {
+        listener = l
+    }
+
+    //TODO(WS2:4) Create interface ClickListener
+    interface ClickListener {
+        fun AllUser():Array<String>
+        fun openTop()
+
+    }
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if(context is ClickListener){
+            listener=context
+        }
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        listener=null
     }
 
     companion object {

@@ -25,6 +25,8 @@ class MainActivity : AppCompatActivity(),RegisterFragment.ClickListener,register
     private val userMainFragment = UserMainFragment().apply { this@MainActivity }
     private val AddPieFragment = AddPieFragment().apply { this@MainActivity }
 
+
+
     private lateinit var auth: FirebaseAuth
 
 
@@ -111,19 +113,65 @@ class MainActivity : AppCompatActivity(),RegisterFragment.ClickListener,register
                         var typeUser = postSnapshot.value.toString()
 
                         if(typeUser=="Маша"){
+
+                            //
                             supportFragmentManager.beginTransaction().apply {
 
                                 addToBackStack(null)
                                 add(R.id.persistent_container,mashaMainFragment)
                                 commit()
-                            }
+                            }//
                         }else{
-                            supportFragmentManager.beginTransaction().apply {
+                            val checkCountPies2 = database.getReference("CountPie")
+                            checkCountPies2.addListenerForSingleValueEvent(object : ValueEventListener {
+                                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                    // This method is called once with the initial value and again
+                                    // whenever data at this location is updated.
+                                    val value = dataSnapshot.getValue()
+                                    for (postSnapshot in dataSnapshot.children) {
 
-                                addToBackStack(null)
-                                add(R.id.persistent_container, userMainFragment)
-                                commit()
-                            }
+                                        if (postSnapshot.key.toString()==account.uid.toString()){
+                                            var countPiesInUser = postSnapshot.value.toString().toInt()
+                                            val checkCountPies3 = database.getReference("Users")
+                                            checkCountPies3.addListenerForSingleValueEvent(object : ValueEventListener {
+                                                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                                    // This method is called once with the initial value and again
+                                                    // whenever data at this location is updated.
+
+                                                    for (postSnapshot in dataSnapshot.children) {
+                                                        if (postSnapshot.key.toString()==account.uid.toString()){
+                                                            supportFragmentManager.beginTransaction().apply {
+
+                                                                addToBackStack(null)
+                                                                add(R.id.persistent_container, userMainFragment.apply { countPies=countPiesInUser
+                                                                    nameUserOnfragmenUser=postSnapshot.value.toString()})
+                                                                commit()
+                                                            }
+                                                        }
+                                                    }
+
+                                                    //  Log.d(TAG, "Value is: $value")
+                                                    //  Toast.makeText(this, "1 $value", Toast.LENGTH_LONG).show()
+                                                }
+
+                                                override fun onCancelled(error: DatabaseError) {
+                                                    // Failed to read value
+                                                    // Log.w(TAG, "Failed to read value.", error.toException())
+                                                }
+                                            })
+                                        }
+                                    }
+
+                                    //  Log.d(TAG, "Value is: $value")
+                                    //  Toast.makeText(this, "1 $value", Toast.LENGTH_LONG).show()
+                                }
+
+                                override fun onCancelled(error: DatabaseError) {
+                                    // Failed to read value
+                                    // Log.w(TAG, "Failed to read value.", error.toException())
+                                }
+                            })
+
                         }
 
 
@@ -238,7 +286,9 @@ class MainActivity : AppCompatActivity(),RegisterFragment.ClickListener,register
       //  val currentUser = auth.currentUser
       //  updateUI(currentUser)
     }
+    fun openUserFragment(){
 
+    }
     //регестрацыя пользователей
     override fun registerNewUser(email: String, pass: String, typeUser: String, nameUser: String) {
        var isok = false
@@ -262,12 +312,13 @@ class MainActivity : AppCompatActivity(),RegisterFragment.ClickListener,register
                         if(typeUser!="Маша") {
                             val addPie = database.getReference("CountPie")
                             addPie.child(account.uid.toString()).setValue("0")
-
+                            openUserFragment()
                             supportFragmentManager.fragments.clear()
                             supportFragmentManager.beginTransaction().apply {
                                 // remove(supportFragmentManager.fragments.last())
                                 addToBackStack(null)
-                                add(R.id.persistent_container, userMainFragment)
+                                add(R.id.persistent_container, userMainFragment.apply{
+                                    nameUserOnfragmenUser=nameUser})
                                 commit()
                             }
                         }else{
@@ -447,5 +498,69 @@ class MainActivity : AppCompatActivity(),RegisterFragment.ClickListener,register
         })
         //var v:ArrayList<String>= ListOf("Пусто")
        // var UserAray:Array<String> = UserList?.toTypedArray()?: arrayOf("пустой список")
+    }
+
+    override fun openTop() {
+        val database = com.google.firebase.ktx.Firebase.database
+        val rootRef = database.getReference("Users")
+
+        var w = rootRef.addListenerForSingleValueEvent(object : ValueEventListener {
+
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                var mapUser:String?=null
+
+                for (postSnapshot in dataSnapshot.children) {
+                    if (mapUser==null){
+                        mapUser=postSnapshot.key.toString()+":"+postSnapshot.value.toString()
+                    }else{
+                        mapUser=mapUser+","+postSnapshot.key.toString()+":"+postSnapshot.value.toString()
+                    }
+
+                }
+                val rootRef2 = database.getReference("CountPie")
+                var mapCountPie:String?=null
+
+                var w2 = rootRef2.addListenerForSingleValueEvent(object : ValueEventListener {
+
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+
+                        for (postSnapshot in dataSnapshot.children) {
+
+                            if (mapCountPie==null){
+                                mapCountPie=postSnapshot.key.toString()+":"+postSnapshot.value.toString()
+                            }else{
+                                mapCountPie=mapCountPie+","+postSnapshot.key.toString()+":"+postSnapshot.value.toString()
+                            }
+                        }
+
+                        /////////
+                        supportFragmentManager.beginTransaction().apply {
+                            addToBackStack(null)
+                            add(R.id.persistent_container, TopUsers().apply {mapUserOnTopUsers = mapUser.toString()
+                                mapCountPieOnTopUsers=mapCountPie.toString()
+
+                            })
+                            commit()
+                        }
+                        ///////////
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        // Failed to read value
+                        // Log.w(TAG, "Failed to read value.", error.toException())
+                    }
+
+                })
+
+
+
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // Failed to read value
+                // Log.w(TAG, "Failed to read value.", error.toException())
+            }
+
+        })
     }
 }
